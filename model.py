@@ -7,14 +7,14 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score , f1_score
 
-df_train = pd.read_csv(r"C:\Users\sailj\OneDrive\文档\GitHub\Income Prediction Model\dataset\adult train.csv" , names=["age" , "workclass" , "fnlwgt" , "education" , "education-num" , "marital-status" , "occupation" , "relationship" , "race" , "sex" , "capital-gain" , "capital-loss" , "hours-per-week" , "native-country" , "income"])
+df_train = pd.read_csv("dataset/adult_train.csv" , names=["age" , "workclass" , "fnlwgt" , "education" , "education-num" , "marital-status" , "occupation" , "relationship" , "race" , "sex" , "capital-gain" , "capital-loss" , "hours-per-week" , "native-country" , "income"])
 df_train = df_train.replace(" ?" , np.nan)
 df_train = df_train.drop(["education"] , axis=1)
 df_train["native-country"] = df_train["native-country"].fillna(df_train["native-country"].mode()[0])
 df_train = df_train.dropna(thresh=13)
 df_train["occupation"] = df_train["occupation"].fillna(df_train["occupation"].mode()[0])
 
-df_test = pd.read_csv(r"C:\Users\sailj\OneDrive\文档\GitHub\Income Prediction Model\dataset\adult test.csv" , names=["age" , "workclass" , "fnlwgt" , "education" , "education-num" , "marital-status" , "occupation" , "relationship" , "race" , "sex" , "capital-gain" , "capital-loss" , "hours-per-week" , "native-country" , "income"])
+df_test = pd.read_csv("dataset/adult_test.csv" , names=["age" , "workclass" , "fnlwgt" , "education" , "education-num" , "marital-status" , "occupation" , "relationship" , "race" , "sex" , "capital-gain" , "capital-loss" , "hours-per-week" , "native-country" , "income"])
 df_test = df_test.replace(" ?" , np.nan)
 df_test = df_test.drop(["education"] , axis=1)
 df_test = df_test.replace(" <=50K." , " <=50K")
@@ -40,14 +40,18 @@ cat_cols = xtrain.select_dtypes(include=["object", "string"]).columns
 
 preprocess = ColumnTransformer([("num" , StandardScaler() , num_cols) , ("cat" , OneHotEncoder(handle_unknown="ignore") , cat_cols)])
 
-pipeline = Pipeline([("preprocess" , preprocess) , ("DT" , DecisionTreeClassifier(max_depth=8 , class_weight="balanced"))])
+pipeline = Pipeline([("preprocess" , preprocess) , ("DT" , DecisionTreeClassifier(class_weight="balanced"))])
 
 param_grid = {"DT__max_depth" : [4,5,6,7,8,9,10]}
 
 grid = GridSearchCV(pipeline , param_grid , cv=5 , scoring="f1_weighted")
 grid.fit(xtrain , ytrain)
 model = grid.best_estimator_
+
+
 ypred = model.predict(xtest)
+print(ypred)
+print()
 
 
 # --------------------
