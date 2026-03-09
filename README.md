@@ -1,6 +1,6 @@
 # Income Prediction Classifier
 
-This project builds a Machine Learning model to predict whether a person's income is greater than 50K or less than or equal to 50K per year.
+This project builds a Machine Learning model to predict whether a person's income is greater than 50K or less than 50K per year.
 
 The model is trained on the Adult Census Income Dataset and implemented using Scikit-learn.
 
