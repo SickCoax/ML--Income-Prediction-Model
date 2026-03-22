@@ -29,7 +29,7 @@ income → <=50K or >50K
 
 ## Task
 
-- Missing value handling and feature cleaning
+- Handling Missing Values and feature cleaning
 - StandardScaler for numerical features
 - OneHotEncoder for categorical features
 - DecisionTreeClassifier for prediction
